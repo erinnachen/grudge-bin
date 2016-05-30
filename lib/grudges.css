@@ -1,0 +1,15 @@
+.not-forgiven {
+  border: 2px solid red;
+  border-radius: 5px;
+  width: 40%;
+  margin: 10px;
+  padding: 10px;
+}
+
+.forgiven {
+  border: 2px solid blue;
+  border-radius: 5px;
+  width: 40%;
+  margin: 10px;
+  padding: 10px;
+}
