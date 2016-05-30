@@ -6,14 +6,12 @@ The only way to truly understand any front-end framework is to build a to-do lis
 ### Model
 
 The model—which can be something simple like the one that Steve used the other day—will need the following:
-​
 - An `id`
 - The name of the person who wrong you
 - The offense that caused them to be dead to you
 - Whether or not you've forgiven (but not forgotten) them
 
 ### The Features
-​
 - Users should be able to add a new person who has wronged them to the list.
 - They should be able to include the reason why that person is welcomed to go fly a kite.
 - By default, the person is not forgiven.
@@ -24,7 +22,6 @@ The model—which can be something simple like the one that Steve used the other
 - There should be a button or other option to forgive the monster.
 
 ### The Extensions
-​
 - Can you implement a live search that filters the list automatically?
 - Can you implement a date added feature and sort by either the jackal's name or the date of their horrid act?
 
