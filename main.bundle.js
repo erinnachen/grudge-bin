@@ -8148,6 +8148,7 @@
 	          null,
 	          'I Keep Grudges.'
 	        ),
+	        React.createElement(SearchGrudge, null),
 	        React.createElement(CreateGrudge, null),
 	        React.createElement(GrudgesListStats, { grudges: this.state.grudges }),
 	        React.createElement(GrudgesList, { grudges: this.state.grudges })
@@ -8238,15 +8239,13 @@
 	  );
 	};
 
-	var GrudgesListItem = function GrudgesListItem(_ref2) {
-	  var grudge = _ref2.grudge;
-
+	var GrudgesListItem = function GrudgesListItem(grudge) {
 	  var updateGrudgeStatus = function updateGrudgeStatus(e) {
 	    var updatedStatus = "forgiven";
-	    if (status !== "not forgiven") {
+	    if (grudge.status !== "not forgiven") {
 	      updatedStatus = "not forgiven";
 	    }
-	    store.update(grudge.id, Object.assign(grudge, _defineProperty({}, status, updatedStatus)));
+	    store.update(grudge.id, { status: updatedStatus });
 	  };
 
 	  return React.createElement(
@@ -8271,14 +8270,14 @@
 	    ),
 	    React.createElement(
 	      'button',
-	      { className: 'forgive-btn', onClick: updateGrudgeStatus },
-	      grudge.status === "not forgiven" ? 'Forgive ' + grudge.name + '?' : grudge.name + 'is back on the Grudge list.'
+	      { className: grudge.status === "not forgiven" ? 'btn not-forgiven-btn' : 'btn forgiven-btn', onClick: updateGrudgeStatus },
+	      grudge.status === "not forgiven" ? 'Forgive ' + grudge.name + '?' : 'Put ' + grudge.name + ' back on the Grudge list.'
 	    )
 	  );
 	};
 
-	var GrudgesListStats = function GrudgesListStats(_ref3) {
-	  var grudges = _ref3.grudges;
+	var GrudgesListStats = function GrudgesListStats(_ref2) {
+	  var grudges = _ref2.grudges;
 
 	  var total = grudges.length;
 	  var unforgiven = grudges.filter(function (grudge) {
@@ -8311,8 +8310,54 @@
 	  );
 	};
 
+	var SearchGrudge = function (_React$Component3) {
+	  _inherits(SearchGrudge, _React$Component3);
+
+	  function SearchGrudge() {
+	    _classCallCheck(this, SearchGrudge);
+
+	    var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchGrudge).call(this));
+
+	    _this5.state = {
+	      field: ''
+	    };
+	    return _this5;
+	  }
+
+	  _createClass(SearchGrudge, [{
+	    key: 'updateSearch',
+	    value: function updateSearch(e) {
+	      var _e$target2 = e.target;
+	      var name = _e$target2.name;
+	      var value = _e$target2.value;
+
+	      this.setState(_defineProperty({}, name, value));
+	      store.filterGrudges(value);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this6 = this;
+
+	      return React.createElement(
+	        'div',
+	        { className: 'SearchGrudges' },
+	        React.createElement('input', { className: 'SearchGrudge-field',
+	          name: 'field',
+	          placeholder: 'Search Grudges',
+	          value: this.state.field,
+	          onChange: function onChange(e) {
+	            return _this6.updateSearch(e);
+	          }
+	        })
+	      );
+	    }
+	  }]);
+
+	  return SearchGrudge;
+	}(React.Component);
+
 	ReactDOM.render(React.createElement(GrudgeBox, null), document.querySelector('.application'));
-	// onClick={() => store.update({id, status: })}
 
 /***/ },
 /* 300 */
@@ -28508,7 +28553,9 @@
 	};
 
 	store.all = function () {
-	  return grudges.concat([]);
+	  // storedGrudges = localStorage.getItem('grudges');
+	  // if (storedGrudges) { grudges = JSON.parse(storedGrudges); }
+	  grudges.concat([]);
 	};
 
 	store.update = function (id, data) {
@@ -28520,6 +28567,14 @@
 	  });
 	  store.emit('change', grudges);
 	};
+
+	// store.filterGrudges = (search) => {
+	//   grudges = this.all().filter(function(grudge) {
+	//     return grudge.name.indexOf(search) !== -1 ||
+	//            grudge.offense.indexOf(search) !== -1;
+	//   });
+	//   store.emit('change', grudges);
+	// }
 
 	store.on('change', function () {
 	  localStorage.setItem('grudges', JSON.stringify(grudges));
@@ -29214,7 +29269,7 @@
 
 
 	// module
-	exports.push([module.id, ".not-forgiven {\n  border: 2px solid red;\n  border-radius: 5px;\n  width: 40%;\n  margin: 10px;\n  padding: 10px;\n}\n\n.forgiven {\n  border: 2px solid blue;\n  border-radius: 5px;\n  width: 40%;\n  margin: 10px;\n  padding: 10px;\n}\n\n.forgive-btn {\n  background: LightGreen;\n  border: 1px solid black;\n  border-radius: 3px;\n  padding: 5px;\n  margin-top: 10px;\n}\n", ""]);
+	exports.push([module.id, ".not-forgiven {\n  border: 2px solid red;\n  border-radius: 5px;\n  width: 40%;\n  margin: 10px;\n  padding: 10px;\n}\n\n.forgiven {\n  border: 2px solid blue;\n  border-radius: 5px;\n  width: 40%;\n  margin: 10px;\n  padding: 10px;\n}\n\n.btn {\n  border: 1px solid black;\n  border-radius: 3px;\n  padding: 5px;\n  margin-top: 10px;\n}\n\n.forgiven-btn {\n  background: LightGreen;\n}\n\n.not-forgiven-btn {\n  background: Tomato;\n}\n", ""]);
 
 	// exports
 
