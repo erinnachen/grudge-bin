@@ -28539,11 +28539,6 @@
 
 	var store = new EventEmitter();
 
-	var storedGrudges = localStorage.getItem('grudges');
-	if (storedGrudges) {
-	  grudges = JSON.parse(storedGrudges);
-	}
-
 	store.create = function (_ref) {
 	  var name = _ref.name;
 	  var offense = _ref.offense;
@@ -28553,9 +28548,11 @@
 	};
 
 	store.all = function () {
-	  // storedGrudges = localStorage.getItem('grudges');
-	  // if (storedGrudges) { grudges = JSON.parse(storedGrudges); }
-	  grudges.concat([]);
+	  var stored = localStorage.getItem('grudges');
+	  if (stored) {
+	    grudges = JSON.parse(stored);
+	  }
+	  return grudges.concat([]);
 	};
 
 	store.update = function (id, data) {
@@ -28568,13 +28565,12 @@
 	  store.emit('change', grudges);
 	};
 
-	// store.filterGrudges = (search) => {
-	//   grudges = this.all().filter(function(grudge) {
-	//     return grudge.name.indexOf(search) !== -1 ||
-	//            grudge.offense.indexOf(search) !== -1;
-	//   });
-	//   store.emit('change', grudges);
-	// }
+	store.filterGrudges = function (search) {
+	  var filtered = store.all().filter(function (grudge) {
+	    return grudge.name.toLowerCase().indexOf(search.toLowerCase()) !== -1 || grudge.offense.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+	  });
+	  store.emit('change', filtered);
+	};
 
 	store.on('change', function () {
 	  localStorage.setItem('grudges', JSON.stringify(grudges));
